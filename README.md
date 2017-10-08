@@ -1,4 +1,4 @@
-**project_name** : start_up_script
+**project_name** : `start_up_script`
 ***
 #**description** : This is simple project for open multiple `guake` terminal window with different locations and execute different command on each window.
 ***
