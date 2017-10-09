@@ -1,13 +1,5 @@
 {
     "jobs": [
-        {
-            "name": "golang",
-            "commands": [
-                "fish"
-            ],
-            "loaction": "/home/kutty/work/golang/src/golang",
-            "git_pull": true,
-            "dest_branch": ""
-        }
+       
     ]
 }
