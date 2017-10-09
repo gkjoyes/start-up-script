@@ -1,5 +1,13 @@
 {
     "jobs": [
-       
+        {
+            "name": "project_name",
+            "commands": [
+                "command need to execute"
+            ],
+            "loaction": "project_loaction",
+            "git_pull": true,
+            "dest_branch": "which branch you need to sync with"
+       }
     ]
 }
