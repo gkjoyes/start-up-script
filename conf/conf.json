@@ -1,7 +1,7 @@
 {
     "jobs": [
         {
-            "name": "project_name",
+            "name": "project_name_1",
             "commands": [
                 "command need to execute"
             ],
