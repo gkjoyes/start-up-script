@@ -24,18 +24,19 @@ type InputValues struct {
 }
 
 func main() {
-	//---------color output pointers
-	info := color.New(color.FgGreen).Add(color.Bold)
+
+	// ----color output pointers
 	msg := color.New(color.FgHiCyan).Add(color.Bold)
 	errMsg := color.New(color.FgRed).Add(color.Bold)
 
-	//----------read json input file
+	// ----read json input file
 	reqData, err := os.Open("conf/conf.json")
 	if err != nil {
 		errMsg.Println(err.Error())
 		os.Exit(1)
 	}
-	//---------decoder
+
+	// ----decoder
 	reqParser := json.NewDecoder(reqData)
 	reqJSON := InputValues{}
 	err = reqParser.Decode(&reqJSON)
@@ -43,30 +44,34 @@ func main() {
 		errMsg.Println(err.Error())
 		os.Exit(1)
 	}
-	//--------processing each jobs
+
+	// ----processing each jobs
 	for _, job := range reqJSON.Jobs {
 		var jobRun string
 		for strings.TrimSpace(jobRun) != "n" && strings.TrimSpace(jobRun) != "y" {
-			//----------message
-			msg.Printf("Do you want to start ")
-			info.Printf(job.Name)
+
+			// ----display message
+			fmt.Printf("Do you want to start ")
+			msg.Printf(job.Name)
 			msg.Printf("[y/n]:")
-			//---------user input
+
+			// ----user input
 			_, err := fmt.Scan(&jobRun)
 			if err != nil {
 				errMsg.Println(err.Error())
 			}
-			//--------user input validation
+
+			// ----user input validation
 			if strings.TrimSpace(jobRun) != "y" && strings.TrimSpace(jobRun) != "n" {
 				errMsg.Println("invalid input! please enter valid input!")
 			}
 		}
 		if jobRun == "y" {
-			//----------create execution command
+			// ----create execution command
 			cmd := "guake"
 			execmds := "cd " + job.Loaction
 
-			//----------git pull
+			// ----git pull
 			if job.GitPull {
 				gitCommand := "git pull "
 				if job.DestBranch != "" {
@@ -74,18 +79,19 @@ func main() {
 				}
 				execmds = execmds + " && " + gitCommand
 			}
-			//---------other commands
+
+			// ----other commands
 			for _, execmd := range job.Commands {
 				execmds = execmds + " && " + execmd
 			}
 
-			//----------pass arguments
+			// ----pass arguments
 			args := []string{"-n", " ", "-r", job.Name, "-e", execmds}
 			if err = exec.Command(cmd, args...).Run(); err != nil {
 				errMsg.Fprintln(os.Stderr, err.Error())
 				os.Exit(1)
 			}
-			info.Println("done")
+			fmt.Println("done")
 		}
 	}
 }
