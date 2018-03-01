@@ -4,7 +4,7 @@
 
 ### Description 
 
- * This is simple project for open multiple `guake` terminal window with different locations and execute necessary command on each window.
+ * This is simple project for open multiple `guake` terminal window with different locations and execute necessary command on each window
 
 
 ### requirement 
@@ -16,7 +16,7 @@
 
 ### usage 
 
-* Update `conf/conf.json` depending on user demand. 
+* Update `conf/conf.json` depending on user demand
 
 * Sample structure of `conf/conf.json` shown below
 
