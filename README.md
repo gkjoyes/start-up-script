@@ -5,7 +5,7 @@
 **requirement** : `golang`
 ***
 **usage** : add `jobs` entry in json file
-      {
+      ```{
           "jobs": [
               {
                   "name": "job_1",
@@ -28,6 +28,6 @@
                   "dest_branch": ""
               }
           ]
-      }
+      }```
 ***
 **run-tool** : run command `go run main.go` from project folder
