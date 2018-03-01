@@ -5,15 +5,34 @@
 **requirement** : `golang`
 ***
 **usage** : add `jobs` entry in json file
-      
-                  {
-                        "name": "project_name",
-                        "commands": [
-                            "command need to execute"
-                        ],
-                        "loaction": "project_loaction",
-                        "git_pull": true,
-                        "dest_branch": "which branch you need to sync with"
-                   }
+
+
+      ```{
+          "jobs": [
+              {
+                  "name": "job_1",
+                  "commands": [
+                      "echo job_1 starting.....",
+                      "echo job_1 done...."
+                  ],
+                  "loaction": "/home/georgekutty/work/javascript",
+                  "git_pull": true,
+                  "dest_branch": "sub_branch"
+              },
+              {
+                  "name": "job_2",
+                  "commands": [
+                      "echo job_2 starting.....",
+                      "echo job_2 done...."
+                  ],
+                  "loaction": "/home/georgekutty/work/javascript",
+                  "git_pull": false,
+                  "dest_branch": ""
+              }
+          ]
+      }```
+
+
+
 ***
 **run-tool** : run command `go run main.go` from project folder
