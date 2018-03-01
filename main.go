@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"os/exec"
 
@@ -19,7 +20,6 @@ type inputValues struct {
 		GitPull      bool     `json:"git_pull"`
 		SourceBranch string   `json:"source_branch,omitempty"`
 		DestBranch   string   `json:"dest_branch,omitempty"`
-		Loaction     string   `json:"loaction,omitempty"`
 	} `json:"jobs"`
 }
 
@@ -44,6 +44,13 @@ func main() {
 		os.Exit(0)
 	}
 
+	// ----validation
+	err = validation(reqJSON)
+	if err != nil {
+		errMsg.Println("#Error: ", err.Error())
+		os.Exit(0)
+	}
+
 	// ----running shell
 	shell := "guake"
 
@@ -51,7 +58,7 @@ func main() {
 	for _, job := range reqJSON.Jobs {
 
 		// ----location
-		execmds := "cd " + job.Loaction
+		execmds := "cd " + job.Location
 
 		// ----git pull
 		if job.GitPull {
@@ -76,4 +83,15 @@ func main() {
 			os.Exit(0)
 		}
 	}
+}
+
+// validation of user inputs
+func validation(reqJSON inputValues) error {
+	for _, job := range reqJSON.Jobs {
+		// ----check project path is exists
+		if _, err := os.Stat(job.Location); err != nil {
+			return fmt.Errorf("job location %s is not exists", job.Location)
+		}
+	}
+	return nil
 }

@@ -3,20 +3,20 @@
         {
             "name": "job_1",
             "commands": [
-                "echo job_1 starting.....",
-                "echo job_1 done...."
+                "echo job_1 starting",
+                "echo job_1 done"
             ],
-            "loaction": "/home/georgekutty/work/javascript",
-            "git_pull": true,
+            "location": "/home/georgekutty/work/javascript",
+            "git_pull": false,
             "dest_branch": "sub_branch"
         },
         {
             "name": "job_2",
             "commands": [
-                "echo job_2 starting.....",
-                "echo job_2 done...."
+                "echo job_2 starting",
+                "echo job_2 done"
             ],
-            "loaction": "/home/georgekutty/work/javascript",
+            "location": "/home/georgekutty/work/javascript",
             "git_pull": false,
             "dest_branch": ""
         }
