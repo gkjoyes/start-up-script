@@ -7,7 +7,7 @@
                 "echo job_1 done...."
             ],
             "loaction": "/home/georgekutty/work/javascript",
-            "git_pull": false,
+            "git_pull": true,
             "dest_branch": "sub_branch"
         },
         {
@@ -18,7 +18,7 @@
             ],
             "loaction": "/home/georgekutty/work/javascript",
             "git_pull": false,
-            "dest_branch": "sub_branch"
+            "dest_branch": ""
         }
     ]
 }
