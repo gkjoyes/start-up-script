@@ -1,97 +1,85 @@
 package main
 
 import (
-	"encoding/json"
+	"flag"
 	"fmt"
 	"os"
-	"os/exec"
 
-	"github.com/fatih/color"
+	"github.com/g-kutty/start-up-script/jobs"
+	"github.com/g-kutty/start-up-script/logger"
 )
 
-const inputFile = "conf/conf.json"
+var (
+	path    string
+	help    bool
+	version bool
+)
 
-//inputValues provides struct for unmarshalling request info
-type inputValues struct {
-	Jobs []struct {
-		Name         string   `json:"name"`
-		Commands     []string `json:"commands"`
-		Location     string   `json:"location,omitempty"`
-		GitPull      bool     `json:"git_pull"`
-		SourceBranch string   `json:"source_branch,omitempty"`
-		DestBranch   string   `json:"dest_branch,omitempty"`
-	} `json:"jobs"`
+// Version.
+const (
+	Version = "1.0.1"
+)
+
+// Read command line arguments before start.
+func init() {
+	flag.StringVar(&path, "p", "", "")
+	flag.StringVar(&path, "path", "", "")
+	flag.BoolVar(&help, "h", false, "")
+	flag.BoolVar(&help, "help", false, "")
+	flag.BoolVar(&version, "v", false, "")
+	flag.BoolVar(&version, "version", false, "")
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "Usage: start-up-script [options]\n")
+		fmt.Fprintf(os.Stderr, "options:\n")
+		fmt.Fprintf(os.Stderr, "\t-p	path 		Directory	The directory to watch.\n")
+		fmt.Fprintf(os.Stderr, "\t-h	help		Help		Show this help.\n")
+		fmt.Fprintf(os.Stderr, "\t-v	version		Version		Prints the version.\n")
+	}
 }
 
 func main() {
+	parseFlags()
 
-	// ----sys out colors
-	errMsg := color.New(color.FgRed)
+	// new reader.
+	r := jobs.NewReader(path)
 
-	// ----read json input file
-	reqData, err := os.Open(inputFile)
+	// read each jobs from input files.
+	jobs, err := r.Read()
 	if err != nil {
-		errMsg.Println("#Error: ", err.Error())
-		os.Exit(0)
+		logger.Error().Message(err.Error()).Log()
+		os.Exit(1)
 	}
 
-	// ----decoder
-	reqParser := json.NewDecoder(reqData)
-	reqJSON := inputValues{}
-	err = reqParser.Decode(&reqJSON)
+	// execute jobs.
+	err = jobs.Execute()
 	if err != nil {
-		errMsg.Println("#Error: ", err.Error())
-		os.Exit(0)
-	}
-
-	// ----validation
-	err = validation(reqJSON)
-	if err != nil {
-		errMsg.Println("#Error: ", err.Error())
-		os.Exit(0)
-	}
-
-	// ----running shell
-	shell := "guake"
-
-	// ----processing each jobs
-	for _, job := range reqJSON.Jobs {
-
-		// ----location
-		execmds := "cd " + job.Location
-
-		// ----git pull
-		if job.GitPull {
-			gitCommand := "git pull "
-			if job.DestBranch != "" {
-				gitCommand = gitCommand + " origin " + job.DestBranch
-			}
-			execmds = execmds + " && " + gitCommand
-		}
-
-		// ----other commands
-		for _, execmd := range job.Commands {
-			execmds = execmds + " && " + execmd
-		}
-
-		// ----pass arguments
-		args := []string{"-n", " ", "-r", job.Name, "-e", execmds}
-
-		// ----execution
-		if err = exec.Command(shell, args...).Run(); err != nil {
-			errMsg.Fprintln(os.Stderr, err.Error())
-			os.Exit(0)
-		}
+		logger.Error().Message(err.Error()).Log()
+		os.Exit(1)
 	}
 }
 
-// validation of user inputs
-func validation(reqJSON inputValues) error {
-	for _, job := range reqJSON.Jobs {
-		// ----check project path is exists
-		if _, err := os.Stat(job.Location); err != nil {
-			return fmt.Errorf("job location %s is not exists", job.Location)
-		}
+// parseFlags read command line arguments.
+func parseFlags() {
+	flag.Parse()
+
+	// display version.
+	if version {
+		fmt.Printf("start-up-script v%s\n", Version)
+		os.Exit(0)
 	}
-	return nil
+
+	// display help guides for command line arguments.
+	if help {
+		flag.Usage()
+		os.Exit(0)
+	}
+
+	// check path is valid.
+	if path == "" {
+		logger.Error().Message("Please Provide config file path", logger.FormattedMessage(path)).Log()
+		os.Exit(1)
+	} else if _, err := os.Stat(path); err != nil {
+		logger.Error().Message("Cannot configuration file", logger.FormattedMessage(path)).Log()
+		os.Exit(1)
+	}
 }

@@ -4,21 +4,19 @@
             "name": "job_1",
             "commands": [
                 "echo job_1 starting",
+                "echo job_1 done",
                 "echo job_1 done"
             ],
-            "location": "/home/georgekutty/work/javascript",
-            "git_pull": false,
-            "dest_branch": "sub_branch"
+            "path": "/home/georgekutty/work/golang/src/github.com/g-kutty/sample"
         },
         {
             "name": "job_2",
             "commands": [
                 "echo job_2 starting",
+                "echo job_2 done",
                 "echo job_2 done"
             ],
-            "location": "/home/georgekutty/work/javascript",
-            "git_pull": false,
-            "dest_branch": ""
+            "path": "/home/georgekutty/work/golang/src/github.com/g-kutty/sample"
         }
     ]
 }

@@ -1,20 +1,22 @@
 ## start_up_script
 
 
-
+&nbsp;
 ### Description 
+***
 
- * This is simple project for open multiple `guake` terminal window with different locations and execute necessary command on each window
+Automatically open multiple jobs in multiple windows of `guake` in a single click.
 
-
-### requirement 
+&nbsp;
+### Requirement 
+***
 
 * [Golang](https://golang.org/)
 
 * [Guake](http://guake.org/)
 
-
-### usage 
+&nbsp;
+### Usage 
 
 * Update `conf/conf.json` depending on user demand
 
@@ -22,35 +24,28 @@
 
 
 ```
-      {
-          "jobs": [
-              {
-                  "name": "job_1",
-                  "commands": [
-                      "echo job_1 starting",
-                      "echo job_1 done"
-                  ],
-                  "loaction": "/home/georgekutty/work/javascript",
-                  "git_pull": true,
-                  "dest_branch": "sub_branch"
-              },
-              {
-                  "name": "job_2",
-                  "commands": [
-                      "echo job_2 starting",
-                      "echo job_2 done"
-                  ],
-                  "loaction": "/home/georgekutty/work/javascript",
-                  "git_pull": false,
-                  "dest_branch": ""
-              }
-          ]
-      }
+{
+    "jobs": [
+        {
+            "name": "job-1",
+            "commands": [
+                "echo starting",
+                "echo done"
+            ],
+            "path": "/home/go"
+        },
+        {
+            "name": "job-2",
+            "commands": [
+                "echo starting",
+                "echo done"
+            ],
+            "path": "/home/python"
+        }
+    ]
+}
 ```
 
-
-
-
-### run-tool 
-
-* run command `go run main.go` from project folder
+&nbsp;
+### Working 
+* Run command `go run main.go` from project folder.
