@@ -1,51 +1,46 @@
 ## start_up_script
 
-
-&nbsp;
 ### Description 
-***
 
-Automatically open multiple jobs in multiple windows of `guake` in a single click.
+Automatically open multiple jobs in multiple windows of `guake` by a single click.
 
-&nbsp;
 ### Requirement 
-***
 
 * [Golang](https://golang.org/)
 
 * [Guake](http://guake.org/)
 
-&nbsp;
 ### Usage 
 
-* Update `conf/conf.json` depending on user demand
+* Provide your job details by using `conf/conf.json`.
 
-* Sample structure of `conf/conf.json` shown below
+* Example of config file show below.
 
+* You can keep config file anywhere and just pass location of the file by using command line interface.
 
-```
-{
-    "jobs": [
-        {
-            "name": "job-1",
-            "commands": [
-                "echo starting",
-                "echo done"
-            ],
-            "path": "/home/go"
-        },
-        {
-            "name": "job-2",
-            "commands": [
-                "echo starting",
-                "echo done"
-            ],
-            "path": "/home/python"
-        }
-    ]
-}
-```
+    ```
+    {
+        "jobs": [
+            {
+                "name": "job-1",
+                "commands": [
+                    "echo starting",
+                    "echo done"
+                ],
+                "path": "/home/go"
+            },
+            {
+                "name": "job-2",
+                "commands": [
+                    "echo starting",
+                    "echo done"
+                ],
+                "path": "/home/python"
+            }
+        ]
+    }
+    ```
 
-&nbsp;
 ### Working 
+
 * Run command `go run main.go` from project folder.
