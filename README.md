@@ -1,6 +1,6 @@
 ## start_up_script
 
-### Description 
+### Descriptions 
 
 Automatically open multiple jobs in multiple windows of `guake` by a single click.
 
